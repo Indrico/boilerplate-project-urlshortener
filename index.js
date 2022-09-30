@@ -71,13 +71,11 @@ app.post('/api/shorturl', async function (req, res) {
 });
 
 // Your first API endpoint
-app.get('/api/shorturl/:short_url', function (req, res) {
+app.get('/api/shorturl/:short_url', async function (req, res) {
   const { short_url } = req.params;
-  let rawdata = fs.readFileSync('data.json');
-  let data = JSON.parse(rawdata);
-  let found = data.find((item) => item.short_url === parseInt(short_url));
+  let found = await UrlShort.find({short_url}).sort({short_url: -1}).limit(1)(short_url);
 
-  if (found) {
+  if (found.length > 0) {
     res.redirect(found.original_url);
   } else {
     res.status = '404'
