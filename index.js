@@ -29,7 +29,7 @@ app.post('/api/shorturl', function (req, res) {
     return
   }
 
-  let rawdata = fs.readFileSync('data.json');
+  let rawdata = fs.readFileSync(path.resolve(__dirname, 'data.json'));
   let data = JSON.parse(rawdata);
   // Cek kalau datanya sudah ada.
   let found = data.find((item) => item.original_url === req.body.url);
